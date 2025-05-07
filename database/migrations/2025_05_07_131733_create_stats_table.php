@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('critic_film', function (Blueprint $table) {
-            $table->id();
+        Schema::create('stats', function (Blueprint $table) {
+            $table->id('film_id');
+            $table->integer('average_score')->default(0);
+            $table->foreignId('film_id')->constrained(); 
             $table->timestamps();
         });
     }
@@ -22,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('critic_film');
+        Schema::dropIfExists('stats');
     }
 };
