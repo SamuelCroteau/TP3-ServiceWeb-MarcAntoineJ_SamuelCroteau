@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
+use Illuminate\Support\Facades\DB;
 class StatsSeeder extends Seeder
 {
     /**
@@ -12,30 +12,28 @@ class StatsSeeder extends Seeder
      */
     public function run(): void
     {
-        //TODO faire calcul de moyenne pour chaque film et mettre dans stats
-        $nbVotes = 0;
-        $totalScore = 0;
-        $str = file_get_contents(database_path() . '/seeders/data_source.sql');
-        $json = json_decode($str, true); //https://stackoverflow.com/questions/19758954/get-data-from-json-file-with-php
-        foreach ($json['data']['reviews'] as $field => $value) {
-            //ptet mettre autre boucle, jpense c good tho
-            $currentNbVotes = $json['data']['reviews']/*[0]*/['votes'];
-            $currentScore = $json['data']['reviews']/*[0]*/['score'];
-            $nbVotes += $currentNbVotes;
-            $totalScore += $currentScore;
+        //https://stackoverflow.com/questions/19758954/get-data-from-json-file-with-php
+        $str = file_get_contents(database_path() . '/seeders/data_source.json');
+        $json = json_decode($str, true);
+
+        foreach ($json['data'] as $movie) {
+            $totalScore = 0;
+            $totalVotes = 0;
+
+            foreach ($movie['reviews'] as $review) {
+                $totalScore += $review['score'] * $review['votes'];
+                $totalVotes += $review['votes'];
+            }
+            if($totalVotes > 0){
+                $averageScore = $totalScore / $totalVotes;
+            }
+            else{
+                $averageScore = 0;
+            }
+            DB::table('stats')->insert([
+                'film_id' => $movie['id'],
+                'average_score' => $averageScore
+            ]);
         }
-        $averageScore = $totalScore / $nbVotes;
-
-    {
-
-        DB::table('stats')->insert([
-
-            'name' => Str::random(10),
-
-            'email' => Str::random(10).'@example.com',
-
-            'password' => Hash::make('password'),
-
-        ]);
     }
 }
