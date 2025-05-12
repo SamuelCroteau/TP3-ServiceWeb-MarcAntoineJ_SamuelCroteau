@@ -1,13 +1,13 @@
 scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
 
 type Query {
+  me: User @auth
   films(
         title: String @where(key: "title", operator: "like")
         description: String @where(key: "description", operator: "like")
         duration: durationRange @whereBetween(key: "length")
         release_year: Int @where(key: "release_year", operator: ">=")
     ): [Film!] @paginate(defaultCount:10)
-    me: User @auth
 }
 type Mutation {
   createFilm(input: CreateFilmInput! @spread): Film! @create
@@ -61,14 +61,14 @@ type Critic {
 }
 
 input CreateFilmInput {
-    title : String!
-    release_year : Int!
-    length : Int!
-    description : String!
-    rating : String!
-    language_id : Int!
-    special_features : String!
-    image : String!
+    title: String!
+    description: String!
+    release_year: Int!
+    length: Int!
+    rating: String!
+    special_features: String!
+    language_id: Int!
+    image: String!
 }
 
 input CreateActorInput {
