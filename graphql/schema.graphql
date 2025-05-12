@@ -7,6 +7,7 @@ type Query {
         duration: durationRange @whereBetween(key: "length")
         release_year: Int @where(key: "release_year", operator: ">=")
     ): [Film!] @paginate(defaultCount:10)
+    me: User @auth
 }
 type Mutation {
   createFilm(input: CreateFilmInput! @spread): Film! @create
@@ -18,16 +19,24 @@ input durationRange {
   to: Int!
 }
 
+type User{
+    id: ID!
+    login: String!
+    email: String!
+    password: String!
+    first_name: String!
+    last_name: String!
+}
+
 type Film {
     id: ID!
-    title : String!
-    release_year : Int!
-    length : Int!
-    description : String!
-    rating : String
-    language_id : Int
-    special_features : String
-    image : String
+    title: String!
+    release_year: Int!
+    length: Int!
+    description: String!
+    rating: String!
+    special_features: String!
+    image: String!
     
 }
 
