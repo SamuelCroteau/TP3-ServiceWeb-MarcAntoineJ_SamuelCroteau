@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('stats', function (Blueprint $table) {
-            $table->id('film_id');
-            $table->integer('average_score')->default(0);
-            $table->foreignId('film_id')->constrained(); 
+            $table->id();
+            $table->float('average_score')->default(0);
+            $table->foreignId('film_id')->constrained();
             $table->timestamps();
         });
     }
