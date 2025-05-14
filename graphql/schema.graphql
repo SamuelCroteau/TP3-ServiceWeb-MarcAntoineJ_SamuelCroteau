@@ -2,7 +2,9 @@
 
 type Query {
     film(id: ID! @eq): Film @find
-    films(
+
+  me: User @auth
+  films(
         title: String @where(key: "title", operator: "like")
         description: String @where(key: "description", operator: "like")
         duration: durationRange @whereBetween(key: "length")
@@ -18,6 +20,16 @@ input durationRange {
   to: Int!
 }
 
+type User{
+    id: ID!
+    login: String!
+    email: String!
+    password: String!
+    first_name: String!
+    last_name: String!
+    critics: [Critic!] @hasMany
+}
+
 type Film {
     id: ID!
     title: String!
@@ -30,6 +42,7 @@ type Film {
     image: String!
     critics: [Critic!] @hasMany
     actors: [Actor!] @belongsToMany
+    image: String!
 }
 
 type Actor {
@@ -51,6 +64,7 @@ type Critic {
     user_id: Int!
     film_id: Int!
     film: Film! @belongsTo
+    user: User! @belongsTo
 }
 
 input CreateActorInput {
