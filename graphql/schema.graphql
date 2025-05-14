@@ -10,7 +10,7 @@ type Query {
     ): [Film!] @paginate(defaultCount:10)
 }
 type Mutation {
-  createFilm(input: CreateFilmInput! @spread): Film! @create
+  #TODO
   createActor(input: CreateActorInput! @spread): Actor! @create
 }
 
@@ -26,6 +26,7 @@ type User{
     password: String!
     first_name: String!
     last_name: String!
+    critics: [Critic!] @hasMany
 }
 
 type Film {
@@ -58,17 +59,7 @@ type Critic {
     comment: String!
     user_id: Int!
     film_id: Int!
-}
-
-input CreateFilmInput {
-    title: String!
-    description: String!
-    release_year: Int!
-    length: Int!
-    rating: String!
-    special_features: String!
-    language_id: Int!
-    image: String!
+    user: User! @belongsTo
 }
 
 input CreateActorInput {
