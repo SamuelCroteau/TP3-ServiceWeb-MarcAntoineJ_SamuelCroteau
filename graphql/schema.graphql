@@ -1,7 +1,8 @@
 scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
 
 type Query {
-  films(
+    film(id: ID! @eq): Film @find
+    films(
         title: String @where(key: "title", operator: "like")
         description: String @where(key: "description", operator: "like")
         duration: durationRange @whereBetween(key: "length")
@@ -28,7 +29,8 @@ type Film {
     language_id : Int
     special_features : String
     image : String
-    
+    critics: [Critic!] @hasMany
+    actors: [Actor!] @belongsToMany
 }
 
 type Actor {
@@ -49,6 +51,7 @@ type Critic {
     comment: String!
     user_id: Int!
     film_id: Int!
+    film: Film! @belongsTo
 }
 
 input CreateFilmInput {
