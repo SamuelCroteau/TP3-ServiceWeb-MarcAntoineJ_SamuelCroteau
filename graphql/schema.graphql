@@ -1,4 +1,4 @@
-scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+#scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
 
 type Query {
     film(id: ID! @eq): Film @find
@@ -10,7 +10,6 @@ type Query {
     ): [Film!] @paginate(defaultCount:10)
 }
 type Mutation {
-  createFilm(input: CreateFilmInput! @spread): Film! @create
   createActor(input: CreateActorInput! @spread): Actor! @create
 }
 
@@ -21,14 +20,14 @@ input durationRange {
 
 type Film {
     id: ID!
-    title : String!
-    release_year : Int!
-    length : Int!
-    description : String!
-    rating : String
-    language_id : Int
-    special_features : String
-    image : String
+    title: String!
+    release_year: Int!
+    length: Int!
+    description: String!
+    rating: String!
+    special_features: String!
+    language_id: Int!
+    image: String!
     critics: [Critic!] @hasMany
     actors: [Actor!] @belongsToMany
 }
@@ -37,7 +36,7 @@ type Actor {
     id: ID!
     last_name: String!
     first_name: String!
-    birth_date: DateTime!
+    birthdate: String!
 }
 
 type Language {
@@ -52,17 +51,6 @@ type Critic {
     user_id: Int!
     film_id: Int!
     film: Film! @belongsTo
-}
-
-input CreateFilmInput {
-    title : String!
-    release_year : Int!
-    length : Int!
-    description : String!
-    rating : String!
-    language_id : Int!
-    special_features : String!
-    image : String!
 }
 
 input CreateActorInput {
