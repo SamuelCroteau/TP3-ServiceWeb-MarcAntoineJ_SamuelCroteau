@@ -7,7 +7,7 @@ use App\Models\Critic;
 
 class CreateCritic
 {
-    public function __invoke($_, array $args)
+    public function __invoke( array $args)
     {
 
         $critic = Critic::create([
