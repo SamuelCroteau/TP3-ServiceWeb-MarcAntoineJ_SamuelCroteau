@@ -11,9 +11,16 @@ type Query {
         release_year: Int @where(key: "release_year", operator: ">=")
     ): [Film!] @paginate(defaultCount:10)
 }
+
 type Mutation {
-  createActor(input: CreateActorInput! @spread): Actor! @create
-  createCritic(input: CreateCriticInput! @spread): Stat! @inject(context: "user.id", name: "user_id") @field(resolver: "App\\GraphQL\\Mutations\\CreateCritic")
+  createActor(input: CreateActorInput! @spread): Actor! @canModel(ability: "create",policy: "App\\Policies\\ActorPolicy"
+    ) @field(resolver: "CreateActor")
+  createCritic(input: CreateCriticInput! @spread): Stat! @inject(context: "user.id", name: "user_id") @field(resolver: "CreateCritic")
+}
+
+input CreateActorBelongsTo{
+    connect: ID!
+    create: CreateActorInput
 }
 
 type Stat {
@@ -34,6 +41,7 @@ type User{
     password: String!
     first_name: String!
     last_name: String!
+    role_id: Int!
     critics: [Critic!] @hasMany
 }
 
@@ -56,6 +64,8 @@ type Actor {
     last_name: String!
     first_name: String!
     birthdate: String!
+    films: [Film!] @belongsToMany
+    connect: [Film!] @belongsToMany
 }
 
 type Language {
@@ -77,6 +87,17 @@ input CreateActorInput {
     last_name: String!
     first_name: String!
     birthdate: String!
+    films: [CreateFilmBelongsTo!] @belongsToMany
+    films_images: [FilmImageInput!]
+}
+
+input FilmImageInput {
+    film_id: ID!
+    image: String!
+}
+
+input CreateFilmBelongsTo{
+    connect: ID!
 }
 
 input CreateCriticInput {

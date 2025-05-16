@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             FilmActorSeeder::class,
             StatsSeeder::class,
+            UserSeeder::class,
         ]);
 
         /*User::factory()->create([

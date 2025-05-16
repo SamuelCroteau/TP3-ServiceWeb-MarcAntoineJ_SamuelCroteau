@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Models\User;
 
-class AdminPolicy
+class ActorPolicy
 {
     /**
      * Create a new policy instance.
@@ -13,8 +13,8 @@ class AdminPolicy
     {
         //
     }
-    public function create(User $user): bool
-    {
-        return $user->role_id == 2;
-    }
+    public function create(User $user, $model = null): bool
+{
+    return $user->role_id == 2;
+}
 }
