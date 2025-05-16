@@ -32,6 +32,7 @@ class StatsSeeder extends Seeder
             }
             DB::table('stats')->insert([
                 'film_id' => $movie['id'],
+                'total_votes' => $totalVotes,
                 'average_score' => $averageScore
             ]);
         }

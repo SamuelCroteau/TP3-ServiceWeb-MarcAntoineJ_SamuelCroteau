@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('stats', function (Blueprint $table) {
             $table->id();
             $table->float('average_score')->default(0);
+            $table->float('total_votes')->default(0);
             $table->foreignId('film_id')->constrained();
             $table->timestamps();
         });

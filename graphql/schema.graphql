@@ -13,8 +13,15 @@ type Query {
 }
 type Mutation {
   createActor(input: CreateActorInput! @spread): Actor! @create
+  createCritic(input: CreateCriticInput! @spread): Stat! @inject(context: "user.id", name: "user_id") @field(resolver: "App\\GraphQL\\Mutations\\CreateCritic")
 }
 
+type Stat {
+    id: ID!
+    average_score: Float!
+    total_votes: Float!
+    film_id: Int!
+}
 input durationRange {
   from: Int!
   to: Int!
@@ -42,7 +49,6 @@ type Film {
     image: String!
     critics: [Critic!] @hasMany
     actors: [Actor!] @belongsToMany
-    image: String!
 }
 
 type Actor {
@@ -63,14 +69,22 @@ type Critic {
     comment: String!
     user_id: Int!
     film_id: Int!
-    film: Film! @belongsTo
-    user: User! @belongsTo
+    #film: Film! @belongsTo
+    #user: User! @belongsTo
 }
 
 input CreateActorInput {
     last_name: String!
     first_name: String!
-    birth_date: DateTime!
+    birthdate: String!
 }
+
+input CreateCriticInput {
+    score: Float!
+    comment: String!
+    film_id: Int!
+}
+
+
 
 
